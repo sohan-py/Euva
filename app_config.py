@@ -1,0 +1,6 @@
+GOOGLE_CLIENT_ID = '447848841932-71jombn24579m89fm11b4ahmur5p5a35.apps.googleusercontent.com'
+GOOGLE_CLIENT_SECRET = 'nbfthCuAs3c2dxgXuIDti576'
+DOMAIN = 'http://127.0.0.1:5000/'
+SCOPE = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email'
+APP_SECRET_KEY = 'euvaapp123'
+MYSQL_PASSWORD = 'Sohan20055'

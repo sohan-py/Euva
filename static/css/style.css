@@ -1,0 +1,205 @@
+html {
+    scroll-behavior: smooth;
+}
+
+button {
+    color: white;
+    background-color: #4B5EB2;
+}
+
+button:hover {
+    background-color: #5265B7;
+}
+
+.fs-20 {
+    font-size: 20px;
+}
+
+.fs-30 {
+    font-size: 30px;
+}
+
+.fs-40 {
+    font-size: 40px;
+}
+
+.nav-wave {
+    top: 0px;
+    position: fixed;
+    z-index: 2;
+}
+
+.index-nav-active {
+    padding-bottom: 3px; 
+    border-bottom-style: solid; 
+    border-bottom-width: 3px;
+    border-bottom-color: #4B5EB2; 
+}
+
+.intro-message {
+    width: 500px;
+    margin-top: 15%;
+}
+
+.intro-message>h1 {
+    font-size: 70px;
+}
+
+.intro-message>p {
+    font-size: 25px;
+}
+
+.wave-top {
+    margin-top: 150px;
+    display: block;
+}
+
+.features {
+    width: 100%;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    background-color: #4B5EB2;
+}
+
+.featurette-top {
+    margin-top: 150px;
+}
+
+.featurette-mid {
+    margin-top: 250px;
+    margin-bottom: 250px;
+}
+
+.featurette-bottom {
+    margin-bottom: 150px;
+}
+
+.featurette-col-1 {
+    padding: 25px;
+    border-radius: 25px;
+    background-color: #5265B7;
+}
+
+.featurette-col-1>h2 {
+    color: #FEDB60;
+}
+
+.featurette-circle {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    z-index: -1;
+    background-color: #FEDB60;
+}
+
+.featurette-circle>img {
+    height: 300px;
+}
+
+.free-100 {
+    margin: auto;
+    text-align: center;
+    margin-bottom: 300px;
+}
+
+.free-100>h1 {
+    font-size: 50px;
+}
+
+.free-100>p {
+    font-size: 20px;
+}
+
+.editor {
+    background-color: #F7F7F7;
+}
+
+.codex-editor__redactor {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px !important;
+}
+
+.ce-block {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color: white;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border-left-style: solid;
+    border-color: #343a40;
+    border-width: 5px;
+    z-index: 1;
+}
+
+.days .card {
+    border-left-width: 5px;
+    transition: 0.5s;
+}
+
+.days .card:hover {
+    cursor: pointer;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+}
+
+.day-odd {
+    color: #4B5EB2;
+    border-left-color: #4B5EB2;
+}
+
+.day-even {
+    color: #FEDB60;
+    border-left-color: #FEDB60;
+}
+
+.chatbox {
+    width: 300px;
+    bottom: 25px;
+    right: 25px;
+    position: absolute;
+    z-index: 2;
+}
+
+#chatbox-header {
+    z-index: 3;
+    cursor: move;
+}
+
+.chatbox .card .card-body {
+    overflow-y: scroll;
+    height: 300px;
+}
+
+.online {
+    width: 10px;
+    height: 10px;
+    background-color: #45CC58;
+    border-radius: 50%;
+    position: absolute;
+    top: 40px;
+    left: 45px;
+}
+
+.chatbox-message {
+    padding: 8px;
+    width: fit-content;
+    color: white;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+
+
+.user {
+    background-color: #FEDB60;
+}
+
+.comp {
+    background-color: #4B5EB2;
+}
+
+.bar-tab:hover {
+    cursor: pointer;
+}

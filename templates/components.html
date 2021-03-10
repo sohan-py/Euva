@@ -1,0 +1,37 @@
+{% macro index_navbar() %}
+<nav class="navbar navbar-expand-md navbar-light sticky-top" style="z-index: 2;">
+    <div class="container">
+        <a href="/" class="navbar-brand fs-30"><img src="{{ url_for('static', filename='images/favicon.svg') }}" width="30px"> Euva</a>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="/" id="nav-home" class="h5 nav-link active index-nav-active">Home</a>
+            </li>
+            <li class="nav-item">
+                <a href="#features" id="nav-features" class="h5 nav-link">Features</a>
+            </li>
+            <li class="nav-item">
+                <a href="/login/user" class="h5 nav-link">Dashboard</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+{% endmacro %}
+
+{% macro dashboard_navbar() %}
+<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+    <div class="container">
+        <a href="/" class="navbar-brand fs-30"><img src="{{ url_for('static', filename='images/favicon.svg') }}" width="30px"> Euva</a>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="/" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item">
+                <a href="/#features" class="nav-link">Features</a>
+            </li>
+            <li class="nav-item">
+                <a href="/user" class="nav-link">Dashboard</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+{% endmacro %}

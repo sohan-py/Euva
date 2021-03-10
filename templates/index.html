@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% import "components.html" as comp %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<body onscroll="indexScroll()">
+    <svg class="nav-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#FEDB60" fill-opacity="1" d="M0,128L60,122.7C120,117,240,107,360,117.3C480,128,600,160,720,176C840,192,960,192,1080,186.7C1200,181,1320,171,1380,165.3L1440,160L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path></svg>
+    {{ comp.index_navbar() }}
+    <div class="container">
+        <div class="intro-message">
+            <h1>The Ultimate Journal App</h1>
+            <p class="text-muted">Write, save, analyze.<br>Get things done with Euva.</p>
+            <form action="/login/user">
+                <button class="btn btn-lg">Get started</button>
+            </form>
+        </div>
+    </div>
+    <svg class="wave-top" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#4B5EB2" fill-opacity="1" d="M0,160L48,181.3C96,203,192,245,288,229.3C384,213,480,139,576,106.7C672,75,768,85,864,106.7C960,128,1056,160,1152,192C1248,224,1344,256,1392,272L1440,288L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
+    <div id="features" class="features">
+        <div class="container">
+            <div class="featurette featurette-top">
+                <div class="row">
+                    <div class="col featurette-col-1">
+                        <h2 class="fs-40">100% Confidential &#8213; Write In Private</h2>
+                        <p class="text-white fs-20">Your journals, your privacy. Euva requires users to login with a Google Account to strengthen account protection. Journals are also saved in an encrypted format, so not only will getting hands on them be a problem, but so will comprehending them.</p>
+                    </div>
+                    <div class="col featurette-col-2">
+                        <div class="featurette-circle">
+                            <img src="{{ url_for('static', filename='images/secure.svg') }}" style="transform: rotate(15deg);">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="featurette featurette-mid">
+                <div class="row">
+                    <div class="col featurette-col-2">
+                        <div class="featurette-circle">
+                            <img src="{{ url_for('static', filename='images/block-editor.svg') }}" style="transform: rotate(-15deg);">
+                        </div>
+                    </div>
+                    <div class="col featurette-col-1">
+                        <h2 class="fs-40">Not Just A Text Editor &#8213; It's A Block Editor</h2>
+                        <p class="text-white fs-20">While typing in a plain text editor can be boring, Euva offers an intuitive block editor. Block editors allow users to create and organize sections within an entry. Additionally, they allow users to move, edit, and delete blocks easily.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="featurette featurette-mid">
+                <div class="row">
+                    <div class="col featurette-col-1">
+                        <h2 class="fs-40">Sentimental Analysis Charts</h2>
+                        <p class="text-white fs-20">Upon saving a journal, Euva uses a sentimental artificial intelligence model to determine the overall sentiment of your day. Afterwards, Euva displays its predictions on an interactive doughnut chart.</p>
+                    </div>
+                    <div class="col featurette-col-2">
+                        <div class="featurette-circle">
+                            <img src="{{ url_for('static', filename='images/pie-chart.svg') }}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="featurette featurette-mid">
+                <div class="row">
+                    <div class="col featurette-col-2">
+                        <div class="featurette-circle">
+                            <img src="{{ url_for('static', filename='images/time-graph.svg') }}">
+                        </div>
+                    </div>
+                    <div class="col featurette-col-1">
+                        <h2 class="fs-40">Sentimental Scores Tracked Over Time</h2>
+                        <p class="text-white fs-20">Over time, Euva saves sentimental progress from a user and displays it on an interactive graph allowing the user to reflect on their emotional progress over a period of time. Euva allows users to analyze graphs with a line graph and bar chart.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#4B5EB2" fill-opacity="1" d="M0,192L48,181.3C96,171,192,149,288,128C384,107,480,85,576,101.3C672,117,768,171,864,176C960,181,1056,139,1152,117.3C1248,96,1344,96,1392,96L1440,96L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>
+    <div class="container">
+        <div class="free-100">
+            <h1>And It's 100% Free</h1>
+            <p class="text-muted">So what are you waiting for?  Get started now!</p>
+            <form action="/login/user">
+                <button class="btn btn-lg">Get started</button>
+            </form>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+{% endblock %}

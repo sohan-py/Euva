@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+{% import "components.html" as comp %}
+
+{% block title %}{{ userinfo["name"] }}{% endblock %}
+
+{% block content %}
+<body style="overflow-x: hidden;">
+    {{ comp.dashboard_navbar() }}
+    <div class="chatbox" id="chatbox">
+        <div class="card">
+            <div class="card-header bg-dark text-white" id="chatbox-header">
+                <div class="online"></div>
+                <div class="d-flex">
+                    <img src="{{ url_for('static', filename='images/favicon.svg') }}" width="30px">
+                    <p class="ml-3 my-auto fs-30">Euva</p>
+                </div>
+            </div>
+            <div class="card-body" id="chat">
+                <p id="latest-message" class="chatbox-message comp">Hello {{ userinfo["name"] }} &#128075;! My name is Euva and I am at your service.</p>
+            </div>
+            <div class="card-footer">
+                <input type="text" name="message-input" id="message-input" class="form-control" placeholder="Enter a message..." autocomplete="off">
+            </div>
+        </div>
+    </div>
+    <div class="container my-5">
+        <p class="text-muted fs-20">{{ date }}</p>
+        <h1>Good to see you, {{ userinfo["name"] }}!</h1>
+        <div class="card-deck days my-5">
+            {% for i in range(last_five_journals_len) %}
+                {% if (i + 1) % 2 == 0 %}
+                    <div class="card day-even" onclick="updatePreviousJournal('{{ last_five_journals[i][0] }}')">
+                {% else %}
+                    <div class="card day-odd" onclick="updatePreviousJournal('{{ last_five_journals[i][0] }}')">
+                {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ last_five_journals[i][2] }}</h5>
+                            <p class="card-text">Sentiment {{ last_five_journals[i][1] }}%</p>
+                        </div>
+                    </div>
+            {% endfor %}
+        </div>
+        <div class="card editor mb-5">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a id="journal-entry-tab" class="nav-link bar-tab active" onclick="hideCurrJournalStats()">Journal Entry</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="journal-stats-tab" class="nav-link bar-tab" onclick="showCurrJournalStats()">Today's Journal Stats</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <canvas id="curr-journal-stats-ctx" style="display: none;"></canvas>
+                <div class="empty-for-chart-stats">
+                    <h1 class="card-title text-center">Daily Journal</h1>
+                    <p class="card-text text-muted text-center">Write about the things that stood out to you today.</p>
+                    <div id="journal-entry"></div>
+                </div>
+            </div>
+            <div class="empty-for-chart-stats">
+                <div class="card-footer">
+                    <button class="btn" onclick="submitEntry()">Save Journal</button>
+                    {% if jes %}
+                        <div class="alert alert-success mt-3">Your journal entry has been saved!</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="card mb-5">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a id="line" class="nav-link bar-tab active" onclick="changeChartType('line')">Line Graph</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="bar" class="nav-link bar-tab" onclick="changeChartType('bar')">Bar Chart</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <canvas id="overview-chart-ctx"></canvas>
+            </div>
+            <div class="card-footer">
+                <div class="form-group">
+                    <label for="graph-zoom" id="graph-zoom-label">Graph Zoom Factor: 0</label>
+                    <input type="range" class="form-control-range" id="graph-zoom" value="0" min="0" max="{{ sentiment_scores_len - 1 }}" oninput="updateZoom()">
+                </div>
+            </div>
+        </div>
+        <div class="card" id="previous-journal">
+            <div class="card-body">
+                <h1 class="card-title text-center">Previous Journals</h1>
+                <p class="card-text text-muted text-center" id="prev-journal-date"></p>
+                <div class="row">
+                    <div class="col">
+                        <canvas id="previous-journal-ctx"></canvas>
+                    </div>
+                    <div class="col" id="previous-journal-display">
+                    </div>
+                </div>
+                <div class="input-group col-md-6 mt-3 mx-auto">
+                    <input type="date" name="previous-journal-date-input" id="previous-journal-date-input" class="form-control" max="{{ latest_journal_date }}">
+                    <div class="input-group-append">
+                        <button class="btn" onclick="updatePreviousJournal('input')">Submit</button>
+                        <button class="btn" onclick="downloadJournal()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer" id="prev-journal-error-message" style="display: none;">
+                <div class="alert alert-danger text-center mt-3">Error &#8213; You haven't written a journal on this date.</div>
+            </div>
+        </div>
+    </div>
+    <form method="POST" id="journal-entry-form">
+        <input type="hidden" name="journal-entry-input" id="journal-entry-input">
+    </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
+    <script>
+        let currPreviousJournalBlocks;
+        const userId = "{{ userinfo['id'] }}";
+        let journalBlocks = '{{ journal_blocks }}';
+        let journalDate = '{{ latest_journal_date }}';
+        const overviewChartData = JSON.parse('{{ sentiment_scores }}');
+        const journalBlockReplacements = [['\'', ':sq:'], ['\"', ':dq:'], ['\"', '&#39;']];
+        const request = new XMLHttpRequest();
+        let chat = document.getElementById('chat');
+        const chatbotApiURL = 'http://127.0.0.1:5000/api/chatbot/';
+        const sentimentScoreApiURL = 'http://127.0.0.1:5000/api/sentiment_score/';
+        const journalFromDateApiURL = 'http://127.0.0.1:5000/api/journal_from_date/';
+        let messageInput = document.getElementById('message-input');
+        messageInput.addEventListener('keyup', sendMessage);
+        function sendMessage (event) {
+            if (event.keyCode === 13 && messageInput.value.length > 0) {
+                const messageInputValue = messageInput.value;
+                messageInput.value = '';
+                document.getElementById('latest-message').id = '';
+                chat.innerHTML += '<p class="chatbox-message user">' + messageInputValue + '</p>';
+                request.open('GET', encodeURI(chatbotApiURL + messageInputValue));
+                request.onload = function () {
+                    const response = JSON.parse(this.responseText);
+                    if (response.journal == true) {
+                        updatePreviousJournal(response.message);
+                        chat.innerHTML += '<p id="latest-message" class="chatbox-message comp">You can scroll down to view your journal from ' + getDateString(response.message) + '.</p>';
+                    }
+                    else { chat.innerHTML += '<p id="latest-message" class="chatbox-message comp">' + response.message + '</p>'; }
+                    chat.scrollTop = chat.scrollHeight;
+                }
+                request.send();
+            }
+        };
+        function showCurrJournalStats() {
+            editor.save().then((outputData) => {
+                let text = '';
+                for (i = 0; i < outputData.blocks.length; i++) { text += outputData.blocks[i].data.text + ' '; }
+                request.open('GET', encodeURI(sentimentScoreApiURL + text));
+                request.onload = function () {
+                    const sentimentScore = JSON.parse(this.responseText)['sentiment_score'];
+                    let currJournalStatsChartJsDataCopy = currJournalStatsChartJsData;
+                    currJournalStatsChartJsDataCopy.datasets[0].data = [sentimentScore, (100 - sentimentScore).toFixed(2)];
+                    document.getElementById('journal-entry-tab').classList.remove('active');
+                    document.getElementById('journal-stats-tab').classList.add('active');
+                    currJournalStatsctx.style.display = 'block';
+                    for (item of document.getElementsByClassName('empty-for-chart-stats')) { item.style.display = 'none'; }
+                    currJournalStatsChart = new Chart(currJournalStatsctx, {
+                        type: 'doughnut',
+                        data: currJournalStatsChartJsDataCopy
+                    });
+                }
+                request.send();
+            });
+        }
+        function updatePreviousJournal(input) {
+            if (input == 'input') { journalDate = document.getElementById('previous-journal-date-input').value; }
+            else {
+                journalDate = input;
+                window.scrollBy(0, document.getElementById('previous-journal').offsetTop);
+            }
+            if (journalDate.length > 1) {
+                request.open('GET', encodeURI(journalFromDateApiURL + userId + '/' + journalDate));
+                request.onload = function () {
+                    const previousJournalDisplay = document.getElementById('previous-journal-display');
+                    previousJournalDisplay.innerHTML = '';
+                    let journalBlocks = JSON.parse(this.responseText).journal_entry;
+                    graphPreviousJournal(JSON.parse(this.responseText).sentiment_score);
+                    if (journalBlocks != 'Invalid Date') {
+                        document.getElementById('prev-journal-error-message').style.display = 'none';
+                        for (i = 0; i < journalBlockReplacements.length; i++) { journalBlocks = journalBlocks.replaceAll(journalBlockReplacements[i][1], journalBlockReplacements[i][0]); }
+                        currPreviousJournalBlocks = JSON.parse(journalBlocks).blocks;
+                        document.getElementById('prev-journal-date').innerHTML = getDateString(journalDate);
+                        for (i = 0; i < currPreviousJournalBlocks.length; i++) {
+                            if (currPreviousJournalBlocks[i].type == 'header') {
+                                previousJournalDisplay.innerHTML += '<h' + currPreviousJournalBlocks[i].data.level + '>' + currPreviousJournalBlocks[i].data.text + '</h' + currPreviousJournalBlocks[i].data.level + '>';
+                            } else if (currPreviousJournalBlocks[i].type == 'paragraph') {
+                                previousJournalDisplay.innerHTML += '<p>' + currPreviousJournalBlocks[i].data.text + '</p>';
+                            }
+                        }
+                    } else { document.getElementById('prev-journal-error-message').style.display = 'block'; }
+                }
+                request.send();
+            }
+        }
+        updatePreviousJournal(journalDate);
+    </script>
+    <script src="{{ url_for('static', filename='js/previousJournals.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/overviewCharts.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/editor.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+{% endblock %}
