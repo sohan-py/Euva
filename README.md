@@ -29,3 +29,7 @@ Building this project taught me lots of things.  I learned a lot about frontend 
 
 ## What's next for Euva
 Eventually, I hope to host Euva live on the internet for people to use.  I really hope you enjoyed my project and please let me know what you thought of it in the comments below.
+
+<p align="center">
+  <img src="https://github.com/sohan-py/Euva/blob/main/static/images/app/app.svg">
+</p>
