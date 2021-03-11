@@ -1,3 +1,9 @@
+#Euva
+An journal writing web app that uses sentimental analysis to analyze journal entries over time.
+<p align="center">
+  <img src="https://github.com/sohan-py/Euva/blob/main/static/images/app/app.svg">
+</p>
+
 ## Inspiration
 A lot of times, we write journal entries about things that stood out to us during our day. Unfortunately, reflecting back on them after a while is difficult, because it requires us to reread what we wrote a while back. With this as my motive, I have created Euva, a journal app that allows users to reflect on their emotional behavior over a period of time.
 
@@ -29,7 +35,3 @@ Building this project taught me lots of things.  I learned a lot about frontend 
 
 ## What's next for Euva
 Eventually, I hope to host Euva live on the internet for people to use.  I really hope you enjoyed my project and please let me know what you thought of it in the comments below.
-
-<p align="center">
-  <img src="https://github.com/sohan-py/Euva/blob/main/static/images/app/app.svg">
-</p>
